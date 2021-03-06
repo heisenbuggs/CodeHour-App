@@ -7,7 +7,7 @@ const classes = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    paddingTop: 20,
+    paddingTop: 25,
   },
 });
 
