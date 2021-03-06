@@ -1,17 +1,9 @@
 import { Icon } from "native-base";
 import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { DefaultTheme, TextInput } from "react-native-paper";
-
-const theme = {
-  ...DefaultTheme,
-  // Specify custom property
-  myOwnProperty: true,
-  // Specify custom property in nested object
-  colors: {
-    myOwnColor: "#000",
-  },
-};
+import { Dropdown } from "react-native-material-dropdown-v2";
+import { TextInput } from "react-native-paper";
+import timezoneAll from "./timezonesAll";
 
 const classes = StyleSheet.create({
   login_logo: {
@@ -57,6 +49,14 @@ const classes = StyleSheet.create({
     textAlign: "center",
     borderRadius: 13,
   },
+  register_button: {
+    marginTop: 40,
+    marginBottom: 20,
+    backgroundColor: "#2F2B28",
+    alignItems: "center",
+    textAlign: "center",
+    borderRadius: 13,
+  },
   login_or: {
     color: "darkgray",
     textAlign: "center",
@@ -65,6 +65,17 @@ const classes = StyleSheet.create({
     width: 370,
     marginBottom: 15,
     backgroundColor: "white",
+  },
+  dropdown: {
+    width: 390,
+    marginTop: 80,
+  },
+  globe: {
+    marginTop: 5,
+    justifyContent: "center",
+    alignSelf: "flex-end",
+    marginTop: -60,
+    marginRight: 10,
   },
 });
 
@@ -100,13 +111,11 @@ export default function LoginComponent() {
         <View>
           <TextInput
             label="Email ID"
-            mode="outlined"
+            mode="flat"
             style={classes.login_input}
-            // onFocus={() => inputFocus}
             value={values.email}
             onChangeText={handleChange("email")}
             selectionColor="#F0F8FF"
-            keyboardType="email-address"
             underlineColorAndroid="transparent"
             theme={{ colors: { primary: "#F3673D", placeholder: "#2F2B28" } }}
             right={
@@ -117,7 +126,7 @@ export default function LoginComponent() {
           />
           <TextInput
             label="Password"
-            mode="outlined"
+            mode="flat"
             style={classes.login_input}
             value={values.password}
             onChangeText={handleChange("password")}
@@ -139,27 +148,24 @@ export default function LoginComponent() {
             }
           />
           {signup && (
-            <TextInput
-              label="TimeZone"
-              mode="outlined"
-              style={classes.login_input}
+            <Dropdown
+              label="Time"
+              data={timezoneAll}
               value={values.timezone}
-              selectionColor="#F0F8FF"
               onChangeText={handleChange("timezone")}
-              underlineColorAndroid="transparent"
               theme={{ colors: { primary: "#F3673D", placeholder: "#2F2B28" } }}
-              right={
-                <TextInput.Icon
-                  name={() => <Icon name="globe" color="black" />}
-                />
-              }
+              pickerStyle={classes.dropdown}
             />
           )}
+          {signup && <Icon name="globe" color="#000" style={classes.globe} />}
         </View>
       </View>
       <View>
         {!signup && (
-          <TouchableOpacity style={classes.login_button}>
+          <TouchableOpacity
+            style={classes.login_button}
+            onPress={() => console.log(JSON.stringify(values))}
+          >
             <Text style={classes.button_text}>Log In</Text>
           </TouchableOpacity>
         )}
@@ -173,7 +179,10 @@ export default function LoginComponent() {
           </TouchableOpacity>
         )}
         {signup && (
-          <TouchableOpacity style={classes.signup_button}>
+          <TouchableOpacity
+            style={classes.register_button}
+            onPress={() => console.log(JSON.stringify(values))}
+          >
             <Text style={classes.button_text}>Register</Text>
           </TouchableOpacity>
         )}
